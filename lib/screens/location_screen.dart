@@ -2,11 +2,31 @@ import 'package:climator/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class LocationScreen extends StatefulWidget {
+  var decodeData;
+  LocationScreen(this.decodeData);
+
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  String cityName;
+  int temperature;
+  int condition;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var decodeData = widget.decodeData;
+    var temp = decodeData['main']['temp'];
+    temperature = temp.toInt();
+
+    var cond = decodeData['weather'][0]['id'];
+    condition = cond.toInt();
+    var city = decodeData['name'];
+    cityName = city.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +78,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         style: kConditionTextStyle,
                       ),
                       Text(
-                        '32°',
+                        '$temperature°',
                         style: kTempTextStyle,
                       ),
                     ],
