@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:climator/screens/location_screen.dart';
+import 'package:climator/services/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
@@ -12,9 +13,8 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   void getLocation() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    print(position);
+    Location location = new Location();
+    await location.getLocation();
   }
 
   @override
@@ -55,7 +55,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             getData();
             //Get the current location
           },
-          child: Text('Get Location'),
+          child: Text('Get Your Location NOW'),
         ),
       ),
     );
