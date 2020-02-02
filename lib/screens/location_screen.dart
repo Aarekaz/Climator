@@ -1,3 +1,4 @@
+import 'package:climator/services/weather.dart';
 import 'package:climator/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -13,16 +14,25 @@ class _LocationScreenState extends State<LocationScreen> {
   String cityName;
   int temperature;
   int condition;
+
+  WeatherModel weatherModel = new WeatherModel();
+  String message;
+  String weatherIcon;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var decodeData = widget.decodeData;
+    updateUI(widget.decodeData);
+  }
+
+  void updateUI(var decodeData) {
     var temp = decodeData['main']['temp'];
     temperature = temp.toInt();
+    message = weatherModel.getMessage(temperature);
 
     var cond = decodeData['weather'][0]['id'];
     condition = cond.toInt();
+    weatherIcon = weatherModel.getWeatherIcon(condition);
     var city = decodeData['name'];
     cityName = city.toString();
   }
@@ -49,7 +59,10 @@ class _LocationScreenState extends State<LocationScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        var decodeData = weatherModel.getLocation();
+                        updateUI(decodeData);
+                      },
                       child: Icon(
                         Icons.near_me,
                         size: 40.0,
@@ -74,7 +87,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        '☀️',
+                        weatherIcon,
                         style: kConditionTextStyle,
                       ),
                       Text(
@@ -88,7 +101,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Expanded(
                 flex: 3,
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  "$message in $cityName",
                   textAlign: TextAlign.center,
                   style: kMessageTextStyle,
                 ),
