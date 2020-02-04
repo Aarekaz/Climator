@@ -17,17 +17,12 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   double latitude;
   double longitude;
+
   void getLocation() async {
     var decodeData = await WeatherModel().getLocation();
 
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => LocationScreen(decodeData)));
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    print("The screen is closed");
   }
 
   @override
@@ -37,11 +32,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    print("The screen is closed");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SpinKitDualRing(
-          color: Colors.blue,
+        child: SpinKitWave(
+          color: Colors.grey,
         ),
       ),
     );

@@ -7,10 +7,15 @@ class WeatherModel {
   Future getLocation() async {
     Location location = new Location();
     await location.getLocation();
-
     NetworkHelper networkHelper = new NetworkHelper(
         "http://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric");
-    await networkHelper.getData();
+    var decodeData = await networkHelper.getData();
+    return decodeData;
+  }
+
+  Future getCityWeather(String cityName) async {
+    NetworkHelper networkHelper = NetworkHelper(
+        "http://api.openweathermap.org/data/2.5/weather?q=$cityName&units=metric&appid=$apiKey");
     var decodeData = await networkHelper.getData();
     return decodeData;
   }

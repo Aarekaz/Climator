@@ -11,8 +11,8 @@ class NetworkHelper {
     Response response = await get(url);
     if (response.statusCode == 200) {
       String data = response.body;
-      var decodeData = jsonDecode(data);
-      return decodeData;
+      var decodedData = jsonDecode(data);
+      return decodedData;
     } else {
       print(response.statusCode);
     }
